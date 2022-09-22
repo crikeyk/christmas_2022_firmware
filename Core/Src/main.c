@@ -31,9 +31,19 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ON 1
 #define OFF 0
-#define LED1(state) HAL_GPIO_WritePin(LED11_GPIO_Port, LED11_Pin, state); HAL_GPIO_WritePin(LED12_GPIO_Port, LED12_Pin, !state);
+#define RED 1
+#define GREEN 2
+
+#define LED1(state) HAL_GPIO_WritePin(LED12_GPIO_Port, LED12_Pin, state&1); HAL_GPIO_WritePin(LED11_GPIO_Port, LED11_Pin, state&2);
+#define LED2(state) HAL_GPIO_WritePin(LED8_GPIO_Port, LED8_Pin, state&1); HAL_GPIO_WritePin(LED7_GPIO_Port, LED7_Pin, state&2);
+#define LED3(state) HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, state&1); HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, state&2);
+#define LED4(state) HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, state&1); HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, state&2);
+#define LED5(state) HAL_GPIO_WritePin(LED6_GPIO_Port, LED6_Pin, state&1); HAL_GPIO_WritePin(LED5_GPIO_Port, LED5_Pin, state&2);
+#define LED6(state) HAL_GPIO_WritePin(LED10_GPIO_Port, LED10_Pin, state&1); HAL_GPIO_WritePin(LED9_GPIO_Port, LED9_Pin, state&2);
+#define LED7(state) HAL_GPIO_WritePin(LED14_GPIO_Port, LED14_Pin, state&1); HAL_GPIO_WritePin(LED13_GPIO_Port, LED13_Pin, state&2);
+
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -63,6 +73,18 @@ static void MX_GPIO_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
+
+void set_state(int state[]){
+	  LED1(state[0]);
+	  LED2(state[1]);
+	  LED3(state[2]);
+	  LED4(state[3]);
+	  LED5(state[4]);
+	  LED6(state[5]);
+	  LED7(state[6]);
+}
+
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -89,6 +111,9 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
+//  int state[7] = {0,0,0,0,0,0,0};
+  int state;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -98,13 +123,43 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  set_LED11(ON);
 
-	  HAL_Delay(200);
+	  state = RED;
+	  LED1(state);
+	  HAL_Delay(100);
+	  LED2(state);
+	  HAL_Delay(100);
+	  LED3(state);
+	  HAL_Delay(100);
+	  LED4(state);
+	  HAL_Delay(100);
+	  LED5(state);
+	  HAL_Delay(100);
+	  LED6(state);
+	  HAL_Delay(100);
+	  LED7(state);
+	  HAL_Delay(100);
 
-	  set_LED11(OFF);
+	  state = GREEN;
+	  LED1(state);
+	  HAL_Delay(100);
+	  LED2(state);
+	  HAL_Delay(100);
+	  LED3(state);
+	  HAL_Delay(100);
+	  LED4(state);
+	  HAL_Delay(100);
+	  LED5(state);
+	  HAL_Delay(100);
+	  LED6(state);
+	  HAL_Delay(100);
+	  LED7(state);
+	  HAL_Delay(100);
 
-	  HAL_Delay(200);
+//	  state[0] = GREEN;
+//	  set_state(state);
+//	  HAL_Delay(100);
+
 
 
 //
@@ -140,6 +195,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -233,4 +289,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
