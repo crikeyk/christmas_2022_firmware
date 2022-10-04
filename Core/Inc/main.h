@@ -61,6 +61,10 @@ void Error_Handler(void);
 #define LED12_GPIO_Port GPIOA
 #define LED11_Pin GPIO_PIN_1
 #define LED11_GPIO_Port GPIOA
+#define SWITCH_L_Pin GPIO_PIN_2
+#define SWITCH_L_GPIO_Port GPIOA
+#define SWITCH_R_Pin GPIO_PIN_3
+#define SWITCH_R_GPIO_Port GPIOA
 #define LED13_Pin GPIO_PIN_4
 #define LED13_GPIO_Port GPIOA
 #define LED14_Pin GPIO_PIN_5
