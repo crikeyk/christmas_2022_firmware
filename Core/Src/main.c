@@ -17,6 +17,7 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <led.h>
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -31,24 +32,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define OFF 0
-#define RED 1
-#define GREEN 2
-
-#define NUM_LEDS 7
-
-#define LED1(state) HAL_GPIO_WritePin(LED12_GPIO_Port, LED12_Pin, state&1); HAL_GPIO_WritePin(LED11_GPIO_Port, LED11_Pin, state&2);
-#define LED2(state) HAL_GPIO_WritePin(LED8_GPIO_Port, LED8_Pin, state&1); HAL_GPIO_WritePin(LED7_GPIO_Port, LED7_Pin, state&2);
-#define LED3(state) HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, state&1); HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, state&2);
-#define LED4(state) HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, state&1); HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, state&2);
-#define LED5(state) HAL_GPIO_WritePin(LED6_GPIO_Port, LED6_Pin, state&1); HAL_GPIO_WritePin(LED5_GPIO_Port, LED5_Pin, state&2);
-#define LED6(state) HAL_GPIO_WritePin(LED10_GPIO_Port, LED10_Pin, state&1); HAL_GPIO_WritePin(LED9_GPIO_Port, LED9_Pin, state&2);
-#define LED7(state) HAL_GPIO_WritePin(LED14_GPIO_Port, LED14_Pin, state&1); HAL_GPIO_WritePin(LED13_GPIO_Port, LED13_Pin, state&2);
-
-
-#define BUT_LEFT HAL_GPIO_ReadPin(SWITCH_L_GPIO_Port,SWITCH_L_Pin)
-#define BUT_RIGHT HAL_GPIO_ReadPin(SWITCH_R_GPIO_Port,SWITCH_R_Pin)
-
 
 /* USER CODE END PD */
 
@@ -73,53 +56,7 @@ static void MX_GPIO_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void set_LEDs(int state[], int del){
 
-	  LED1(state[0]);
-	  HAL_Delay(del);
-	  LED2(state[1]);
-	  HAL_Delay(del);
-	  LED3(state[2]);
-	  HAL_Delay(del);
-	  LED4(state[3]);
-	  HAL_Delay(del);
-	  LED5(state[4]);
-	  HAL_Delay(del);
-	  LED6(state[5]);
-	  HAL_Delay(del);
-	  LED7(state[6]);
-	  HAL_Delay(del);
-}
-
-void rot_R(int state[]){
-	int state_last = state[NUM_LEDS-1];
-	for(int i=NUM_LEDS-1;i>0;i--){
-		state[i] = state[i-1];
-	}
-	state[0] = state_last;
-}
-
-void rot_L(int state[]){
-	int state_first = state[0];
-	for(int i=0;i<NUM_LEDS-1;i++){
-		state[i] = state[i+1];
-	}
-	state[NUM_LEDS-1] = state_first;
-}
-
-void set_all(int colour){
-	int tmp_state[] = {colour, colour, colour, colour, colour, colour, colour};
-	set_LEDs(tmp_state, 0);
-}
-
-void flash(int colour, int del){
-	set_all(OFF);
-	HAL_Delay(del);
-	set_all(colour);
-	HAL_Delay(del);
-	set_all(OFF);
-
-}
 
 //void flash
 
@@ -203,9 +140,6 @@ int main(void)
 	  } else {
 		  rot_L(state);
 	  }
-
-
-
 
 
   }
