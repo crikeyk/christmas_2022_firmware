@@ -93,8 +93,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   int state[7] = {GREEN,0,0,0,0,0,0};
-  int dir = 1;
-  int game_over = 1;
+
 
   /* USER CODE END 2 */
 
@@ -106,38 +105,20 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-//	  while (game_over){
-//		  set_LEDs(state, 0);
-//
-//	  }
 
 	  set_LEDs(state, 0);
-
 	  HAL_Delay(100);
 
 
-	  if (BUT_LEFT){
-//		  if (state[0] != OFF)
-		  flash(GREEN, 100);
-	  } else if(BUT_RIGHT){
-		  for(int i=0;i<NUM_LEDS-1;i++){
-			  if (state[i] == RED){
-				  state[i] = GREEN;
-			  } else if (state[i] == GREEN){
-				  state[i] = RED;
-			  }
-		  }
+	  if (BUT_LEFT && BUT_RIGHT){
+		  flash(RED, 3, 50);
 	  }
 
-	  if (state[0] != OFF){
-		  dir = 1;
-	  } else if (state[NUM_LEDS-1] != OFF){
-		  dir = 0;
-	  }
-
-	  if (dir){
+	  if (BUT_RIGHT){
 		  rot_R(state);
-	  } else {
+	  }
+
+	  if (BUT_LEFT){
 		  rot_L(state);
 	  }
 

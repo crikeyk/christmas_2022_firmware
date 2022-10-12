@@ -2,20 +2,35 @@
 
 void set_LEDs(int state[], int del){
 
-	  LED1(state[0]);
-	  HAL_Delay(del);
-	  LED2(state[1]);
-	  HAL_Delay(del);
-	  LED3(state[2]);
-	  HAL_Delay(del);
-	  LED4(state[3]);
-	  HAL_Delay(del);
-	  LED5(state[4]);
-	  HAL_Delay(del);
-	  LED6(state[5]);
-	  HAL_Delay(del);
-	  LED7(state[6]);
-	  HAL_Delay(del);
+	for(int i=0;i<NUM_LEDS;i++){
+		set_LED(i, state[i]);
+	}
+}
+
+void set_LED(int number, int state){
+	switch(number){
+	case 0:
+		LED0(state);
+		break;
+	case 1:
+		LED1(state);
+		break;
+	case 2:
+		LED2(state);
+		break;
+	case 3:
+		LED3(state);
+		break;
+	case 4:
+		LED4(state);
+		break;
+	case 5:
+		LED5(state);
+		break;
+	case 6:
+		LED6(state);
+		break;
+	}
 }
 
 void rot_R(int state[]){
@@ -39,11 +54,11 @@ void set_all(int colour){
 	set_LEDs(tmp_state, 0);
 }
 
-void flash(int colour, int del){
-	set_all(OFF);
-	HAL_Delay(del);
-	set_all(colour);
-	HAL_Delay(del);
-	set_all(OFF);
-
+void flash(int colour, int num, int del){
+	for(int i=0;i<num;i++){
+		set_all(colour);
+		HAL_Delay(del);
+		set_all(OFF);
+		HAL_Delay(del);
+	}
 }
