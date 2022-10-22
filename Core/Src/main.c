@@ -96,6 +96,7 @@ int main(void)
   int state[7] = {0,0,0,GREEN,0,0,0};
   int button_state = NONE;
 
+
   random_set();
 
 
@@ -108,7 +109,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
 
 	  set_LEDs(state, 0);
 

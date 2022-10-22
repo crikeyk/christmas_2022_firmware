@@ -19,7 +19,7 @@ void start_game(int state[]){
 		  blink(1, RED, 5, flash_delay);
 
 	  } else if (state[2] != OFF){
-		  blink(2, RED, 5, flash_delay);
+		  pong();
 
 	  } else if (state[3] != OFF){
 		  random_set();
@@ -48,17 +48,90 @@ void random_set(void){
 }
 
 void pong(void){
-	int ball_pos[7] = {0,GREEN,0,0,0,0,0};
-	int dir = CW;
-	int delay = 100;
-	int bounces = 0;
-	int gameover = 0;
-	int button_state = NONE;
+	int ball_pos[7] = {0,0,0,0,0,0,0};
+	int time_step;
+	int bounces;
+	int game_state = NONE;
+	int left_press = 0;
+	int right_press = 0;
+	int last_move = HAL_GetTick();
 
-	wait_for_button_press();
+	while(game_state != FINISH){
 
-	while(!gameover){
-		button_state = get_button_state_debounce(5);
+		if (game_state == NONE){
+			for (int i=0;i<NUM_LEDS;i++){
+				ball_pos[i] = OFF;
+			}
+			ball_pos[0] = GREEN;
+			set_LEDs(ball_pos, 0);
+
+			time_step = 500;
+			game_state = CW;
+			bounces = 0;
+
+			wait_for_button_press();
+			if (get_button_state_debounce(30) == BOTH){
+				game_state = FINISH;
+			} else {
+				wait_for_button_release(0);
+			}
+		}
+
+		if(BUT_LEFT && game_state == CCW){
+			if (ball_pos[0] != 0){
+				bounces += 1;
+				game_state = CW;
+			} else {
+				game_state = GAMEOVER_LEFT;
+			}
+		}
+
+		if(BUT_RIGHT && game_state == CW){
+			if (ball_pos[6] != 0){
+				bounces += 1;
+				game_state = CCW;
+			} else {
+				game_state = GAMEOVER_RIGHT;
+			}
+		}
+
+		if (HAL_GetTick() - last_move >= time_step){
+			if(ball_pos[0] != 0 && game_state == CCW){
+				game_state = GAMEOVER_LEFT;
+			} else if (ball_pos[6] != 0 && game_state == CW){
+				game_state = GAMEOVER_RIGHT;
+			}
+
+
+			switch (game_state) {
+			case CW:
+				rot_R(ball_pos);
+				break;
+			case CCW:
+				rot_L(ball_pos);
+				break;
+			case GAMEOVER_LEFT:
+				blink(0, RED, 5, 50);
+				game_state = NONE;
+				break;
+			case GAMEOVER_RIGHT:
+				blink(6, RED, 5, 50);
+				game_state = NONE;
+				break;
+			}
+
+			last_move = HAL_GetTick();
+			set_LEDs(ball_pos, 0);
+			if (bounces % 5 == 0){
+				time_step = time_step * 0.9;
+			}
+
+		}
+
+
+
+
+
 
 	}
 

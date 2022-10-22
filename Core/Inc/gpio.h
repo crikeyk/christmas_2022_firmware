@@ -15,6 +15,8 @@
 #define CW 1
 #define CCW 2
 
+#define FINISH 5
+
 #define NUM_STATES 3
 
 #define NUM_LEDS 7
