@@ -47,4 +47,21 @@ void random_set(void){
 	}
 }
 
+void pong(void){
+	int ball_pos[7] = {0,GREEN,0,0,0,0,0};
+	int dir = CW;
+	int delay = 100;
+	int bounces = 0;
+	int gameover = 0;
+	int button_state = NONE;
+
+	wait_for_button_press();
+
+	while(!gameover){
+		button_state = get_button_state_debounce(5);
+
+	}
+
+}
+
 

@@ -12,6 +12,9 @@
 #define RED 1
 #define GREEN 2
 
+#define CW 1
+#define CCW 2
+
 #define NUM_STATES 3
 
 #define NUM_LEDS 7
