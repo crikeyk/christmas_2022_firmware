@@ -1,8 +1,18 @@
 #include "main.h"
 
+#ifndef INC_GPIO_H_
+#define INC_GPIO_H_
+
+#define NONE 0
+#define LEFT 1
+#define RIGHT 2
+#define BOTH 3
+
 #define OFF 0
 #define RED 1
 #define GREEN 2
+
+#define NUM_STATES 3
 
 #define NUM_LEDS 7
 
@@ -29,3 +39,16 @@ void rot_L(int state[]);
 void set_all(int colour);
 
 void flash(int colour, int num, int del);
+
+void blink(int LED, int colour, int num, int del);
+
+void blink_til_button_press(int LED, int colour, int num, int del);
+
+void wait_for_button_press(void);
+
+void wait_for_button_release(int timeout);
+
+int get_button_state_debounce(int del);
+
+
+#endif /* INC_TREE_GAMES_H_ */

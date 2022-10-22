@@ -17,7 +17,8 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include <led.h>
+#include <gpio.h>
+#include <tree_games.h>
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -58,7 +59,7 @@ static void MX_GPIO_Init(void);
 
 
 
-//void flash
+
 
 /* USER CODE END 0 */
 
@@ -92,7 +93,10 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
-  int state[7] = {GREEN,0,0,0,0,0,0};
+  int state[7] = {0,0,0,GREEN,0,0,0};
+  int button_state = NONE;
+
+  random_set();
 
 
   /* USER CODE END 2 */
@@ -107,20 +111,22 @@ int main(void)
 
 
 	  set_LEDs(state, 0);
-	  HAL_Delay(100);
 
+	  button_state = get_button_state_debounce(50);
 
-	  if (BUT_LEFT && BUT_RIGHT){
-		  flash(RED, 3, 50);
-	  }
-
-	  if (BUT_RIGHT){
-		  rot_R(state);
-	  }
-
-	  if (BUT_LEFT){
+	  if (button_state == LEFT){
 		  rot_L(state);
+		  set_LEDs(state, 0);
+		  wait_for_button_release(200);
+	  } else if (button_state == RIGHT){
+		  rot_R(state);
+		  set_LEDs(state, 0);
+		  wait_for_button_release(200);
+	  } else if (button_state == BOTH){
+		  wait_for_button_release(0);
+		  start_game(state);
 	  }
+
 
 
   }
