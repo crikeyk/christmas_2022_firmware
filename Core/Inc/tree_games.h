@@ -20,4 +20,6 @@ void random_set(void);
 
 void pong(void);
 
+void memory_game(void);
+
 #endif /* INC_TREE_GAMES_H_ */

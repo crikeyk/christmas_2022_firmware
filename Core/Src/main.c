@@ -97,10 +97,6 @@ int main(void)
   int button_state = NONE;
 
 
-  flash(RED, 3, 100);
-  flash(GREEN, 3, 100);
-
-
   random_set();
 
 

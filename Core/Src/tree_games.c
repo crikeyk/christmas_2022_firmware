@@ -25,7 +25,7 @@ void start_game(int state[]){
 		  random_set();
 
 	  } else if (state[4] != OFF){
-		  blink(4, RED, 5, flash_delay);
+		  memory_game();
 
 	  } else if (state[5] != OFF){
 		  blink(5, RED, 5, flash_delay);
@@ -40,8 +40,70 @@ void start_game(int state[]){
 	  HAL_Delay(100);
 }
 
+
+void memory_game(void){
+
+	int game_state = NONE;
+	int round = 1;
+	int rand_num;
+	int tmp_num;
+	int button_state;
+	int i;
+
+    srand(time(NULL));
+
+	wait_for_button_press();
+
+	while(game_state != FINISH){
+
+		rand_num = rand();
+		tmp_num = rand_num;
+
+		for(i=0;i<round;i++){
+			if(tmp_num & 1 == 1){
+				blink(1, RED, 1, 500);
+			} else {
+				blink(5, RED, 1, 500);
+			}
+
+			tmp_num = tmp_num >> 1;
+		}
+
+		tmp_num = rand_num;
+
+		for(i=0;i<round;i++){
+			wait_for_button_press();
+			button_state = get_button_state_debounce(30);
+
+
+//			FIX ME
+			if(tmp_num & 1 == 1){
+				blink(1, RED, 1, 500);
+			} else {
+				blink(5, RED, 1, 500);
+			}
+
+			tmp_num = tmp_num >> 1;
+		}
+
+
+		flash(GREEN, 5, 50);
+
+		wait_for_button_press();
+		if (get_button_state_debounce(30) == BOTH){
+			game_state = FINISH;
+		} else {
+			wait_for_button_release(0);
+		}
+
+		round++;
+	}
+
+}
+
 void random_set(void){
 	while(get_button_state_debounce(0) == NONE){
+
 		set_LED(rand() % NUM_LEDS, rand() % NUM_STATES);
 		HAL_Delay(100);
 	}
@@ -65,7 +127,7 @@ void pong(void){
 			ball_pos[0] = GREEN;
 			set_LEDs(ball_pos, 0);
 
-			time_step = 500;
+			time_step = 300;
 			game_state = CW;
 			bounces = 0;
 
@@ -122,7 +184,8 @@ void pong(void){
 
 			last_move = HAL_GetTick();
 			set_LEDs(ball_pos, 0);
-			if (bounces % 5 == 0){
+
+			if ((ball_pos[0] != 0 || ball_pos[0] != 0) && bounces % 5 == 0){
 				time_step = time_step * 0.9;
 			}
 
