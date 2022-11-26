@@ -15,6 +15,9 @@
 #define CW 1
 #define CCW 2
 
+#define DOWN 0
+#define UP 1
+
 #define FINISH -1
 
 #define NUM_STATES 3

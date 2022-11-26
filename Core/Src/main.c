@@ -96,7 +96,6 @@ int main(void)
   int state[7] = {0,0,0,GREEN,0,0,0};
   int button_state = NONE;
 
-
   random_set();
 
 

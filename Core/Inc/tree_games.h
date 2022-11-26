@@ -18,7 +18,11 @@ void start_game(int state[]);
 
 void random_set(void);
 
+void spin(void);
+
 void pong(void);
+
+void up_down(void);
 
 void memory_game(void);
 
