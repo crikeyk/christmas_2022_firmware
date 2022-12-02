@@ -54,6 +54,8 @@ void blink_til_button_press(int LED, int colour, int num, int del);
 
 void wait_for_button_press(void);
 
+void wait_for_button_press_timeout(int timeout);
+
 void wait_for_button_release(int timeout);
 
 int get_button_state_debounce(int del);

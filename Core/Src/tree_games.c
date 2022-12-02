@@ -10,13 +10,11 @@ void start_game(int state[]){
 
 	int flash_delay = 50;
 
-//	  flash(GREEN, 10, flash_delay);
-
 	  if (state[0] != OFF){
 		  pong();
 
 	  } else if (state[1] != OFF){
-		  blink(1, RED, 5, flash_delay);
+		  zig_zag();
 
 	  } else if (state[2] != OFF){
 		  spin();
@@ -73,7 +71,7 @@ void memory_game(void){
 		tmp_num = rand_num;
 
 		for(i=0;i<round;i++){
-			wait_for_button_press();
+			wait_for_button_press_timeout(5000);
 			button_state = get_button_state_debounce(30);
 
 			if(tmp_num & 1 == 1){
@@ -108,9 +106,34 @@ void memory_game(void){
 
 }
 
-void random_set(void){
+void zig_zag(void){
+	int order[] = {3, 2, 4, 1, 5, 0, 6, 0, 5, 1, 4, 2};
+	int state[7] = {0,0,0,GREEN,0,0,0};
+	int i = 0;
+	int colour = GREEN;
+
 	while(get_button_state_debounce(0) == NONE){
 
+		if(i==0){
+			if(colour == GREEN){
+				colour = RED;
+			} else {
+				colour = GREEN;
+			}
+		}
+
+		state[order[i]] = 0;
+		i = (i+1)%(2*NUM_LEDS-2);
+		state[order[i]] = colour;
+
+		set_LEDs(state, 0);
+		wait_for_button_press_timeout(150);
+	}
+
+}
+
+void random_set(void){
+	while(get_button_state_debounce(0) == NONE){
 		set_LED(rand() % NUM_LEDS, rand() % NUM_STATES);
 		HAL_Delay(100);
 	}
@@ -197,7 +220,7 @@ void up_down(void){
 		}
 		mirror(state, out_state);
 		set_LEDs(out_state, 0);
-		HAL_Delay(200);
+		wait_for_button_press_timeout(200);
 	}
 
 }
@@ -284,7 +307,7 @@ void pong(void){
 			set_LEDs(ball_pos, 0);
 
 			if ((ball_pos[0] != 0 || ball_pos[0] != 0) && bounces % 3 == 0){
-				time_step = time_step * 0.9;
+				time_step = time_step * 0.8;
 			}
 
 		}

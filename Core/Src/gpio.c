@@ -89,6 +89,13 @@ void wait_for_button_press(void){
 	}
 }
 
+void wait_for_button_press_timeout(int timeout){
+	if (timeout <= 0){timeout = 999999;}
+	int timeout_tick = HAL_GetTick() + timeout;
+	while(HAL_GetTick() < timeout_tick && get_button_state_debounce(0) == NONE){
+	}
+}
+
 void wait_for_button_release(int timeout){
 
 	if (timeout <= 0){timeout = 999999;}

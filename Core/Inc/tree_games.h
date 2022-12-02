@@ -20,6 +20,8 @@ void random_set(void);
 
 void spin(void);
 
+void zig_zag(void);
+
 void pong(void);
 
 void up_down(void);
